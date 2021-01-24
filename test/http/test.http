@@ -1,0 +1,93 @@
+@url = http://localhost:8080
+
+# 適宜コメントアウトを外したりつけたりしてtokenを選んでください
+# ログインでトークン取得もできます
+
+# token of user_id 1
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxfQ.Nk2Z3_VvqOaelTaEXA-WA28zuOA030pCGvsn6g27td4
+
+# token of user_id 2
+# @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyfQ.oZCGv5Xl4jOqfZWS6Dg6mRJvAe0PPimzaHmqhTv6XmA
+
+# token of user_id 3
+# @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozfQ.5wuDA6xiOGWx5Nr9u1TesAAgUaXXcFhb5UjcsuZmCSk
+
+### ユーザー作成
+# 名前が同じだとログインになります（セキュリティがばがば）
+POST {{url}}/v1/auth/signup HTTP/1.1
+content-type: application/json
+
+{
+    "name": "mochida3"
+}
+
+
+# group
+
+
+### グループ作成
+POST {{url}}/v1/groups HTTP/1.1
+content-type: application/json
+X-User-Token: {{token}}
+
+{
+    "name": "mochida group"
+}
+
+### 指定したグループのグループメッセージ一覧取得
+# 最新10件取得
+GET {{url}}/v1/groups/1/messages HTTP/1.1
+content-type: application/json
+X-User-Token: {{token}}
+
+### 指定したグループのグループメッセージ一覧取得
+# ページング用
+# last_message_id があればそのidよりも古いメッセージを10件取得
+GET {{url}}/v1/groups/1/messages?last_message_id=4 HTTP/1.1
+content-type: application/json
+X-User-Token: {{token}}
+
+### 指定したグループにメッセージ投稿
+POST {{url}}/v1/groups/1/messages HTTP/1.1
+content-type: application/json
+X-User-Token: {{token}}
+
+{
+    "text": "this is chat text"
+}
+
+### メッセージ削除
+DELETE {{url}}/v1/groups/1/messages/3 HTTP/1.1
+content-type: application/json
+X-User-Token: {{token}}
+
+
+# DM
+
+
+###　指定したユーザーとのDM一覧取得
+# 最新10件
+GET {{url}}/v1/users/2/direct_messages HTTP/1.1
+content-type: application/json
+X-User-Token: {{token}}
+
+### 指定したユーザーとのDM一覧取得
+# ページング用
+# last_message_id があればそのidよりも古いメッセージを10件取得
+GET {{url}}/v1/users/2/direct_messages?last_message_id=2 HTTP/1.1
+content-type: application/json
+X-User-Token: {{token}}
+
+### 指定したユーザーにDMを送る
+POST {{url}}/v1/users/2/direct_messages HTTP/1.1
+content-type: application/json
+X-User-Token: {{token}}
+
+{
+    "text": "this is chat text"
+}
+
+###　DM削除
+DELETE {{url}}/v1/users/2/direct_messages/2 HTTP/1.1
+content-type: application/json
+X-User-Token: {{token}}
