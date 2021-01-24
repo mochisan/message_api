@@ -1,0 +1,9 @@
+vendor/
+.idea/
+*.iml
+*.swp
+.DS_Store
+main
+go.sum
+.vscode
+.env
